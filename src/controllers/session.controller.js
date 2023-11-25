@@ -1,5 +1,4 @@
 import utils from "../utils.js";
-import CustomError from '../errors/custom.error.js';
 
 const createUser = async(req, res)=>{
     try {
@@ -11,10 +10,9 @@ const createUser = async(req, res)=>{
 
 const userLogued = async(req, res, next)=>{
     try {
-        console.log('Entro al controlador');
         const user = req.user;
         const accesToken = utils.generateToken(user);
-        res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none'}).send({status:'succes', message:`Bienvenidx ${user.name} !`});
+        res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none'}).send({status:'succes', message:`Bienvenidx ${user.name} !`, payload:user});
     } catch (error) {
         next(error);
     }
