@@ -38,9 +38,7 @@ const weekDate = ()=>{
     const date = new Date();
     const weekValue = date.getDate() + 7;
     date.setDate(weekValue);
-    // const weekDate = new Date(weekValue);
     const formatDate = date.toISOString();
-    // console.log(formatDate);
     return formatDate;
 }
 
