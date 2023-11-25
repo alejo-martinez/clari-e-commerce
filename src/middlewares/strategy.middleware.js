@@ -3,9 +3,8 @@ import passport from "passport";
 export const strategyPassport = (strategy)=>{
     return async(req, res, next) =>{
         passport.authenticate(strategy,function(err, user, info){
-            console.log(info);
             if(err) next(err);
-            if(!user) next('Error no hay user')
+            if(!user) next(info.message)
             else{
                 req.user = user
                 return next()
