@@ -9,6 +9,14 @@ export class CartManager {
         }
     }
 
+    static async getByIdPopulate(id){
+        try {
+            return await cartModel.findOne({_id: id}).populate('products.product');
+        } catch (error) {
+            return error;
+        }
+    }
+
     static async create(){
         try {
             const cart = new cartModel();

@@ -30,4 +30,18 @@ const isValidPassword = (user, password) => {
 
 const transporte = nodemailer.createTransport({service:'gmail', port:587, auth:{user:config.adminEmail, pass:config.adminPass}});
 
-export default {__dirname, cookieExtractor, generateToken, createHash, isValidPassword, transporte};
+const formatUnitPrice = (price) => price.toFixed(0);
+
+const actualDate = new Date().toISOString();
+
+const weekDate = ()=>{
+    const date = new Date();
+    const weekValue = date.getDate() + 7;
+    date.setDate(weekValue);
+    // const weekDate = new Date(weekValue);
+    const formatDate = date.toISOString();
+    // console.log(formatDate);
+    return formatDate;
+}
+
+export default {__dirname, cookieExtractor, generateToken, createHash, isValidPassword, transporte, formatUnitPrice, actualDate, weekDate};

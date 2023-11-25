@@ -8,6 +8,7 @@ import passport from 'passport';
 import cors from 'cors';
 import path from 'path';
 
+
 import utils from './utils.js';
 import config from './config/config.js';
 import initPassport from './config/passport.config.js';
@@ -17,6 +18,7 @@ import sessionRouter from './routes/session.router.js';
 import userRouter from './routes/user.router.js';
 import productRouter from './routes/product.router.js';
 import cartRouter from './routes/cart.router.js';
+import mpRouter from './routes/mp.router.js';
 
 const port = parseFloat(config.port) || 3012;
 const app = express();
@@ -37,6 +39,8 @@ app.use(session({
 
 initPassport();
 
+// app.use(bodyParser.urlencoded({extended:false}))
+// app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser(config.secretCookieCode));
@@ -53,6 +57,7 @@ app.use('/api/session', sessionRouter);
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/mercadopago', mpRouter);
 
 mongoose.connect(config.dbUrl);
 

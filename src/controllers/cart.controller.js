@@ -4,7 +4,11 @@ import CustomError from "../errors/custom.error.js";
 const addProduct = async(req, res, next)=>{
     try {
         const {cid} = req.params;
+        if(!cid) throw new CustomError('Invalid data', 'Invalid ID', 1);
         const {idProd, quantity} = req.body;
+        if(!idProd  && quantity) throw new CustomError('Invalid data', 'Invalid product ID', 1);
+        if(!quantity && idProd) throw new CustomError('No data', 'Especifica una cantidad', 2);
+        if(!quantity && !idProd) throw new CustomError('No data', 'Missing data', 6);
         await CartManager.addProduct(idProd, quantity, cid);
         return res.status(200).send({status:'succes', message:'Added !'});
     } catch (error) {
@@ -15,7 +19,9 @@ const addProduct = async(req, res, next)=>{
 const removeProduct = async(req, res, next)=>{
     try {
         const {cid, pid} = req.params;
+        if(!pid || !cid) throw new CustomError('Invalid data', 'Invalid ID', 1);
         const {quantity} = req.body;
+        if(!quantity) throw new CustomError('Invalid data', 'Especifica una cantidad', 2);
         await CartManager.removeProduct(pid, quantity, cid);
         return res.status(200).send({status:'succes', message:'Removed !'});
     } catch (error) {
@@ -26,6 +32,7 @@ const removeProduct = async(req, res, next)=>{
 const emptyCart = async(req, res, next)=>{
     try {
         const {cid} = req.params;
+        if(!cid) throw new CustomError('Invalid data', 'Invalid ID', 1)
         await CartManager.emptyCart(cid);
         return res.status(200).send({status:'succes', message:'Carrito vaciado !'});
     } catch (error) {
@@ -41,4 +48,14 @@ const endPurchase = async(req, res, next)=>{
     }
 }
 
-export default {addProduct, removeProduct, emptyCart, endPurchase};
+const getByIdPopulate = async(req, res)=>{
+    try {
+        const {cid} = req.params;
+        const cart = await CartManager.getByIdPopulate(cid);
+        return res.status(200).send({status:'succes', payload:cart});
+    } catch (error) {
+        return error;
+    }
+}
+
+export default {addProduct, removeProduct, emptyCart, endPurchase, getByIdPopulate};

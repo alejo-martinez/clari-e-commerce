@@ -49,9 +49,11 @@ const initPassport = ()=> {
 
     passport.use('login', new localStrategy({
         passReqToCallback: true, usernameField:'email'
-    }, async(req, username, password, done)=>{
+    }, async(req, username, pass, done)=>{
         try {
             const {password} = req.body;
+            // console.log(password);
+            // console.log(passport);
             const user = await UserManager.getWithPassword('email', username);
             if(!password || !username) done(null, false, {message:'Debes completar todos los campos'});
             if(!user || !utils.isValidPassword(user, password)) done(null, false, {message: 'Email o contraseña incorrecta'});
