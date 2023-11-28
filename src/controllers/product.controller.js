@@ -2,6 +2,8 @@ import { ProductManager } from "../dao/service/product.service.js";
 import { ProductDTO } from "../dto/productDTO.js";
 import CustomError from "../errors/custom.error.js";
 import { missingFields } from "../errors/info.error.js";
+import config from "../config/config.js";
+import utils from "../utils.js";
 
 const getAll = async(req, res, next)=>{
     try {
@@ -48,11 +50,20 @@ const getBySubCategory = async(req, res, next)=>{
 
 const create = async(req, res, next)=>{
     try {
-        const {title, description, price, stock, imageUrl, category, subCategory} = req.body;
-        if(!title || !description || !price || !stock || !imageUrl || !category || !subCategory){
-            const prodIncompleto = new ProductDTO(title, description, price, stock, imageUrl, category, subCategory);
+        let imageUrl;
+        const {title, description, price, stock, category, subCategory} = req.body;
+        if(!title || !description || !price || !stock || !category || !subCategory){
+            const prodIncompleto = new ProductDTO(title, description, price, stock, category, subCategory);
             throw new CustomError('Faltan datos', missingFields(prodIncompleto), 2);
         }
+        if(!req.file) throw new CustomError('Missing data', 'Debes subir una imagen', 2);
+        const params = {
+            Bucket: config.awsBucket,
+            Key: req.file.originalname,
+            Body: req.file.buffer
+        }
+        utils.s3.upload(params).promise();
+        imageUrl = `https://${config.awsBucket}.s3.${config.awsRegion}.amazonaws.com/${req.file.originalname}`;
         const producto = new ProductDTO(title, description, price, stock, imageUrl, category, subCategory);
         await ProductManager.create(producto);
         return res.status(200).send({status:'succes', message: 'Product created!'});

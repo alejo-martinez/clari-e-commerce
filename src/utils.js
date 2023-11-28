@@ -3,11 +3,22 @@ import { dirname } from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
+import multer from 'multer';
+import AWS from 'aws-sdk';
+
 
 import config from './config/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+AWS.config.update({
+    accessKeyId: config.awsSecretKey,
+    secretAccessKey: config.awsSecretAccesKey,
+    region: config.awsRegion
+})
+
+const s3 = new AWS.S3();
 
 const cookieExtractor = (req) => {
     let token = null;
@@ -42,4 +53,8 @@ const weekDate = ()=>{
     return formatDate;
 }
 
-export default {__dirname, cookieExtractor, generateToken, createHash, isValidPassword, transporte, formatUnitPrice, actualDate, weekDate};
+const upload = multer({
+    storage: multer.memoryStorage()
+})
+
+export default {__dirname, cookieExtractor, generateToken, createHash, isValidPassword, transporte, formatUnitPrice, actualDate, weekDate, upload, s3};

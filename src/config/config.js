@@ -11,5 +11,8 @@ export default{
     adminEmail: process.env.ADMIN_EMAIL,
     adminPass: process.env.ADMIN_PASS,
     accesTokenMP: process.env.ACCES_TOKEN_MP,
-    
+    awsSecretKey: process.env.AWS_ACCES_KEY,
+    awsSecretAccesKey: process.env.AWS_SECRET_ACCES_KEY,
+    awsRegion: process.env.AWS_REGION,
+    awsBucket: process.env.AWS_IMGS_BUCKET
 };
