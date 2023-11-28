@@ -32,7 +32,6 @@ const logOut = async (req, res) => {
 const current = async (req, res) =>{
     try {
         const user = req.user;
-        console.log(user);
         res.status(200).send({status:'succes', payload: user});
     } catch (error) {
         console.log(error);
