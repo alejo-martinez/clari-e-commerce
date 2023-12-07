@@ -7,6 +7,7 @@ import utils from "../utils.js";
 import { client } from "../config/mercadopago.config.js";
 
 const createPreference = async(req, res)=>{
+    console.log('entro');
     try {
         const user = req.user;
         const arrayProducts = [];
