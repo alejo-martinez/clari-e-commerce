@@ -6,10 +6,13 @@ import { MercadoPagoManager } from "../dao/service/mp.service.js";
 import {CartManager} from '../dao/service/cart.service.js';
 import { ItemDTO } from "../dto/preferenceItemDTO.js";
 import utils from "../utils.js";
+import config from "../config/config.js";
 // import { client } from "../config/mercadopago.config.js";
 
+mercadopago.configure({access_token: config.accesTokenMP});
+
 const createPreference = async(req, res)=>{
-    console.log('entro');
+
     try {
         const user = req.user;
         const arrayProducts = [];
@@ -26,6 +29,8 @@ const createPreference = async(req, res)=>{
         const preferenceCreated = MercadoPagoManager.createPreference(arrayProducts, user, utils.actualDate, date);
         
         // const response = await preference.create(preferenceCreated);
+
+        console.log(mercadopago);
 
         const response = await mercadopago.preferences.create(preferenceCreated);
         
