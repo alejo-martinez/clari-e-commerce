@@ -9,7 +9,6 @@ import utils from "../utils.js";
 import config from "../config/config.js";
 // import { client } from "../config/mercadopago.config.js";
 
-mercadopago.configure({access_token: config.accesTokenMP});
 
 const createPreference = async(req, res)=>{
 
