@@ -30,7 +30,7 @@ const createPreference = async(req, res)=>{
         // const response = await mercadopag;
 
         
-        return res.status(200).send({status:'succes', payload: response.client_id});
+        return res.status(200).send({status:'succes', payload: response.id});
     } catch (error) {
         console.log(error);
         return res.status(500).send({status:'error', message:error});
