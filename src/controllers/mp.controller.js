@@ -6,7 +6,7 @@ import { MercadoPagoManager } from "../dao/service/mp.service.js";
 import {CartManager} from '../dao/service/cart.service.js';
 import { ItemDTO } from "../dto/preferenceItemDTO.js";
 import utils from "../utils.js";
-import { client } from "../config/mercadopago.config.js";
+// import { client } from "../config/mercadopago.config.js";
 
 const createPreference = async(req, res)=>{
     console.log('entro');
