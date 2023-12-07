@@ -2,7 +2,7 @@
 
 export class MercadoPagoManager {
 
-    static async createPreference(items, payer, dateFrom, dateTo){
+    static createPreference(items, payer, dateFrom, dateTo){
         try {
             return  {
                 items: items,
