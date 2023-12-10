@@ -7,7 +7,17 @@ import utils from "../utils.js";
 
 const getAll = async(req, res, next)=>{
     try {
-        const productos = await ProductManager.getAll(req);
+        const productos = await ProductManager.getAll();
+        if(productos.length === 0) throw new CustomError('No data', 'No se encontraron productos.', 4);
+        return res.status(200).send({status:'succes', payload:productos});
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getAllLimit = async(req, res, next)=>{
+    try {
+        const productos = await ProductManager.getAllLimit(req);
         if(productos.length == 0) throw new CustomError('No data', 'No se encontraron productos', 4);
         return res.status(200).send(productos);
     } catch (error) {
@@ -96,4 +106,4 @@ const remove = async(req, res, next)=>{
     }
 }
 
-export default {getAll, getById, getByCategory, getBySubCategory, create, update, remove};
+export default {getAllLimit, getById, getByCategory, getBySubCategory, create, update, remove, getAll};
