@@ -1,9 +1,18 @@
 import { productModel } from "../models/product.model.js";
 
 export class ProductManager {
-    static async getAll(req) {
+
+    static async getAll(){
         try {
-            const { limit = 10 } = req.query
+            return await productModel.find().lean();
+        } catch (error) {
+            return error;
+        }
+    }
+
+    static async getAllLimit(req) {
+        try {
+            const { limit = 18 } = req.query
             const { page = 1 } = req.query
             const sort = req.query.sort
             const { docs, hasPrevPage, hasNextPage, prevPage, nextPage, totalPages } = await productModel.paginate({}, { limit: limit, page, lean: true })

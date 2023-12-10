@@ -23,16 +23,12 @@ const createPreference = async(req, res)=>{
         })
         const date = utils.weekDate();
         const preference = new Preference(client);
-        const body = MercadoPagoManager.createPreference(arrayProducts);
+        const body = MercadoPagoManager.createPreference(arrayProducts, {'name': `${user.name}`, 'surname': `${user.last_name}`, 'email': `${user.email}`});
       
         const response = await preference.create({body});
-
-        // const response = await mercadopag;
-
         
         return res.status(200).send({status:'succes', payload: response.id});
     } catch (error) {
-        console.log(error);
         return res.status(500).send({status:'error', message:error});
     }
 }

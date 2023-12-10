@@ -7,6 +7,7 @@ import utils from "../utils.js";
 const router = Router();
 
 router.get('/', productController.getAll);
+router.get('/prods', productController.getAllLimit);
 router.get('/:pid', productController.getById);
 router.get('/category/:category', productController.getByCategory);
 router.get('/subcategory/:subcategory', productController.getBySubCategory);

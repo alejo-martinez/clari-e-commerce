@@ -2,9 +2,11 @@
 
 export class MercadoPagoManager {
 
-    static createPreference(items) {
+    static createPreference(items, user) {
         return {
-            'items': items
+            'items': items,
+            'payer': user,
+            'installments': 1
         }
     }
 }
