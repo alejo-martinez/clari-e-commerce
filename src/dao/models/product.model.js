@@ -13,7 +13,8 @@ const schema = new mongoose.Schema({
     imageUrl:{type:String},
     stock:{type:Number},
     category:{type: String, required: true, enum:CategoryEnum},
-    subCategory:{type:String, required: true, enum:SubCategoryEnum}
+    subCategory:{type:String, required: true, enum:SubCategoryEnum},
+    key: String
 })
 
 schema.plugin(mongoosePaginate);

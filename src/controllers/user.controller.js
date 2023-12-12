@@ -14,7 +14,7 @@ const updateUser = async(req, res, next)=>{
 const resetPassword = async(req, res, next)=>{
     try {
         const {uid} = req.params;
-        await UserManager.ressetPass(uid);
+        await UserManager.resetPass(uid);
         return res.status(200).send({status:'success', message:'Password resset !'});
         // Aca tengo que redirigir a la vista con el cambio de contraseña.
     } catch (error) {

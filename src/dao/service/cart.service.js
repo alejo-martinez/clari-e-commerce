@@ -27,16 +27,22 @@ export class CartManager {
         }
     }
 
-    static async addProduct(product, quantity, id){
+    static async addProduct(product, quantity, id, stock){
         try {
             if(!product || !quantity || !id) throw new Error('Faltan campos');
             const cart = await cartModel.findOne({_id:id});
             if(!cart) throw new Error('No existe el carrito');
             const producto = cart.products.find(prod => prod.product == product);
-            if(!producto) await cartModel.updateOne({_id: id}, {$push:{'products':{product:product, quantity:quantity}}});
-            else await cartModel.updateOne({_id: id, 'products.product': product}, {$set:{'products.$.quantity':producto.quantity + quantity}});
+            if(!producto){
+                if(stock < Number(quantity)) throw new Error('No contamos con suficiente stock, porfavor ingresa una cantidad menor.');
+                await cartModel.updateOne({_id: id}, {$push:{'products':{product:product, quantity:quantity}}});
+            }
+            else{
+                if(stock < Number(quantity) + producto.quantity) throw new Error('No contamos con suficiente stock, porfavor ingresa una cantidad menor.');
+                await cartModel.updateOne({_id: id, 'products.product': product}, {$set:{'products.$.quantity':producto.quantity + quantity}});
+            }
         } catch (error) {
-            return error;
+            return {status:'error', error: error};
         }
     }
 

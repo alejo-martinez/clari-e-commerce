@@ -1,4 +1,5 @@
 import { CartManager } from "../dao/service/cart.service.js";
+import { ProductManager } from "../dao/service/product.service.js";
 import CustomError from "../errors/custom.error.js";
 
 const addProduct = async(req, res, next)=>{
@@ -9,7 +10,9 @@ const addProduct = async(req, res, next)=>{
         if(!idProd  && quantity) throw new CustomError('Invalid data', 'Invalid product ID', 1);
         if(!quantity && idProd) throw new CustomError('No data', 'Especifica una cantidad', 2);
         if(!quantity && !idProd) throw new CustomError('No data', 'Missing data', 6);
-        await CartManager.addProduct(idProd, quantity, cid);
+        const prodBdd = await ProductManager.getById(idProd);
+        const resp = await CartManager.addProduct(idProd, quantity, cid, prodBdd.stock);
+        if(resp.status === 'error') throw new CustomError('Conflict error', resp.error.message, 6);
         return res.status(200).send({status:'succes', message:'Added !'});
     } catch (error) {
         next(error);

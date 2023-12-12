@@ -1,4 +1,5 @@
 import utils from "../utils.js";
+import CustomError from "../errors/custom.error.js";
 
 const createUser = async(req, res)=>{
     try {
@@ -29,12 +30,13 @@ const logOut = async (req, res) => {
     })
 }
 
-const current = async (req, res) =>{
+const current = async (req, res, next) =>{
     try {
         const user = req.user;
-        res.status(200).send({status:'succes', payload: user});
+        if(!user) throw new CustomError('No data', 'No hay usuario', 4);
+        return res.status(200).send({status:'succes', payload: user});
     } catch (error) {
-        console.log(error);
+        next(error)
     }
 }
 
