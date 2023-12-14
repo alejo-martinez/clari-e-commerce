@@ -12,7 +12,7 @@ const addProduct = async(req, res, next)=>{
         if(!quantity && !idProd) throw new CustomError('No data', 'Missing data', 6);
         const prodBdd = await ProductManager.getById(idProd);
         const resp = await CartManager.addProduct(idProd, quantity, cid, prodBdd.stock);
-        if(resp.status === 'error') throw new CustomError('Conflict error', resp.error.message, 6);
+        if(resp && resp.status === 'error') throw new CustomError('Conflict error', resp.error.message, 6);
         return res.status(200).send({status:'succes', message:'Added !'});
     } catch (error) {
         next(error);
