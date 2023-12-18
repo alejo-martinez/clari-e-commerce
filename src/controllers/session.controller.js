@@ -1,11 +1,11 @@
 import utils from "../utils.js";
 import CustomError from "../errors/custom.error.js";
 
-const createUser = async(req, res)=>{
+const createUser = async(req, res, next)=>{
     try {
         return res.send({ status: 'succes', message: 'Usuario creado!' });
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
 
@@ -33,8 +33,7 @@ const logOut = async (req, res) => {
 const current = async (req, res, next) =>{
     try {
         const user = req.user;
-        if(!user) throw new CustomError('No data', 'No hay usuario', 4);
-        return res.status(200).send({status:'succes', payload: user});
+        return res.status(200).send({status:'succes', payload: user? user : {}});
     } catch (error) {
         next(error)
     }
