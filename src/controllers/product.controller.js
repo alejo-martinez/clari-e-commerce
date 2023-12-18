@@ -63,7 +63,7 @@ const create = async(req, res, next)=>{
         let imageUrl;
         const {title, description, price, stock, category, subCategory} = req.body;
         if(!title || !description || !price || !stock || !category || !subCategory){
-            const prodIncompleto = new ProductDTO(title, description, price, stock, category, subCategory);
+            const prodIncompleto = {title: title, description: description, price: price, stock: stock, category: category, subCategory: subCategory, imageUrl: !req.file ? undefined : true};
             throw new CustomError('Faltan datos', missingFields(prodIncompleto), 2);
         }
         if(!req.file) throw new CustomError('Missing data', 'Debes subir una imagen', 2);
@@ -76,7 +76,7 @@ const create = async(req, res, next)=>{
         imageUrl = `https://${config.awsBucket}.s3.${config.awsRegion}.amazonaws.com/${req.file.originalname}`;
         const producto = new ProductDTO(title, description, price, stock, imageUrl, category, subCategory, req.file.originalname);
         await ProductManager.create(producto);
-        return res.status(200).send({status:'succes', message: 'Product created!'});
+        return res.status(200).send({status:'succes', message: 'Producto creado!'});
     } catch (error) {
         next(error);        
     }
@@ -89,7 +89,7 @@ const update = async(req, res, next)=>{
         const {field, value} = req.body;
         if(!field || !value) throw new CustomError('Missing data', `${!field && !value? 'Proporciona un campo a actualizar con su valor' : !field && value ? 'Elige un campo a actualizar' : !value && field ? 'Ingresa un valor para el campo' : ''}`, 2);
         await ProductManager.update(field, value, pid);
-        return res.status(200).send({status:'succes', message: 'Product updated!'});
+        return res.status(200).send({status:'succes', message: 'Producto actualizado!'});
     } catch (error) {
         next(error);
     }
@@ -114,7 +114,7 @@ const updateImage = async(req, res, next)=>{
         const imageUrl = `https://${config.awsBucket}.s3.${config.awsRegion}.amazonaws.com/${req.file.originalname}`;
         await ProductManager.update('imageUrl', imageUrl, pid);
         await ProductManager.update('key', req.file.originalname, pid);
-        return res.status(200).send({status:'succes', message: 'Image updated!'});
+        return res.status(200).send({status:'succes', message: 'Imagen actualizada!'});
     } catch (error) {
         next(error);
     }
@@ -130,7 +130,7 @@ const remove = async(req, res, next)=>{
             if(err) throw new CustomError('Error en la bdd', `Error al borrar el archivo: ${err}`, 5);
         })
         await ProductManager.delete(pid);
-        return res.status(200).send({status:'succes', message: 'Product deleted !'});
+        return res.status(200).send({status:'succes', message: 'Producto borrado!'});
     } catch (error) {
         next(error);
     }

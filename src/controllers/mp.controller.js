@@ -8,7 +8,7 @@ import config from "../config/config.js";
 import { client } from "../config/mercadopago.config.js";
 
 
-const createPreference = async(req, res)=>{
+const createPreference = async(req, res, next)=>{
 
     try {
         const user = req.user;
@@ -29,7 +29,7 @@ const createPreference = async(req, res)=>{
         
         return res.status(200).send({status:'succes', payload: response.id});
     } catch (error) {
-        return res.status(500).send({status:'error', message:error});
+        next(error);
     }
 }
 

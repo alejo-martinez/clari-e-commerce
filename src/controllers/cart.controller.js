@@ -13,7 +13,7 @@ const addProduct = async(req, res, next)=>{
         const prodBdd = await ProductManager.getById(idProd);
         const resp = await CartManager.addProduct(idProd, quantity, cid, prodBdd.stock);
         if(resp && resp.status === 'error') throw new CustomError('Conflict error', resp.error.message, 6);
-        return res.status(200).send({status:'succes', message:'Added !'});
+        return res.status(200).send({status:'succes', message:'Producto agregado !'});
     } catch (error) {
         next(error);
     }
@@ -26,7 +26,7 @@ const removeProduct = async(req, res, next)=>{
         const {quantity} = req.body;
         if(!quantity) throw new CustomError('Invalid data', 'Especifica una cantidad', 2);
         await CartManager.removeProduct(pid, quantity, cid);
-        return res.status(200).send({status:'succes', message:'Removed !'});
+        return res.status(200).send({status:'succes', message:'Producto removido !'});
     } catch (error) {
         next(error);
     }
