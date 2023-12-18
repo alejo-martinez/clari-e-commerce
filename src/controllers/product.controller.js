@@ -8,7 +8,6 @@ import utils from "../utils.js";
 const getAll = async(req, res, next)=>{
     try {
         const productos = await ProductManager.getAll();
-        if(productos.length === 0) throw new CustomError('No data', 'No se encontraron productos.', 4);
         return res.status(200).send({status:'succes', payload:productos});
     } catch (error) {
         next(error);
@@ -18,7 +17,6 @@ const getAll = async(req, res, next)=>{
 const getAllLimit = async(req, res, next)=>{
     try {
         const productos = await ProductManager.getAllLimit(req);
-        if(productos.length == 0) throw new CustomError('No data', 'No se encontraron productos', 4);
         return res.status(200).send(productos);
     } catch (error) {
         next(error);
@@ -29,7 +27,6 @@ const getById = async(req, res, next)=>{
     try {
         const {pid} = req.params;
         const producto = await ProductManager.getById(pid);
-        if(!producto) throw new CustomError('No data', 'No se encontró el producto', 4);
         return res.status(200).send({status:'succes', payload:producto});
     } catch (error) {
         next(error);
@@ -40,7 +37,6 @@ const getByCategory = async(req, res, next)=>{
     try {
         const {category} = req.params;
         const productos = await ProductManager.getByCategory(category);
-        if(productos.length == 0) throw new CustomError('No data', 'No se encontraron productos', 4);
         return res.status(200).send({status:'succes', payload:productos});
     } catch (error) {
         next(error);
@@ -51,7 +47,6 @@ const getBySubCategory = async(req, res, next)=>{
     try {
         const {subcategory} = req.params;
         const productos = await ProductManager.getBySubCategory(subcategory);
-        if(productos.length == 0) throw new CustomError('No data', 'No se encontraron productos', 4);
         return res.status(200).send({status:'succes', payload: productos});
     } catch (error) {
         next(error);
