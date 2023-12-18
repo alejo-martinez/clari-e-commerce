@@ -51,7 +51,7 @@ const getBySubCategory = async(req, res, next)=>{
     try {
         const {subcategory} = req.params;
         const productos = await ProductManager.getBySubCategory(subcategory);
-        if(productos.length == 0) throw new CustomError('No data', 'No se encontraron productos')
+        if(productos.length == 0) throw new CustomError('No data', 'No se encontraron productos', 4);
         return res.status(200).send({status:'succes', payload: productos});
     } catch (error) {
         next(error);
