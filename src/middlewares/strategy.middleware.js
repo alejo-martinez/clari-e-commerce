@@ -7,8 +7,7 @@ export const strategyPassport = (strategy)=>{
             if(err) next(err);
             if(!user){
                 req.user = undefined;
-                // const error = new CustomError('No user', 'No user logueddd', 6);
-                return next();
+                return res.status(403).send({status:'error', error:info.message});
             }
             else{
                 req.user = user
