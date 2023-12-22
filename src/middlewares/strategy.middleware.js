@@ -1,5 +1,4 @@
 import passport from "passport";
-import CustomError from "../errors/custom.error.js";
 
 export const strategyPassport = (strategy)=>{
     return async(req, res, next) =>{
@@ -7,7 +6,7 @@ export const strategyPassport = (strategy)=>{
             if(err) next(err);
             if(!user){
                 req.user = undefined;
-                return next();
+                return next(info?.message);
             }
             else{
                 req.user = user
