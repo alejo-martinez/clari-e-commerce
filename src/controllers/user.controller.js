@@ -1,10 +1,15 @@
 import { UserManager } from "../dao/service/user.service.js";
+import utils from "../utils.js";
 
 const updateUser = async(req, res, next)=>{
     try {
         const {field, value} = req.body;
         const {uid} = req.params;
         await UserManager.update(field, value, uid);
+        const user = await UserManager.getById(uid);
+        res.clearCookie('accesToken',{sameSite:'None', secure:true});
+        const accesToken = utils.generateToken(user);
+        res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none'})
         return res.status(200).send({status:'succes', message:`Se actualizó el: ${field}`});
     } catch (error) {
         next(error);
