@@ -10,12 +10,16 @@ const updateUser = async(req, res, next)=>{
         if(!field) throw new CustomError('Missing data', 'Missing field', 2);
         const {uid} = req.params;
         if(!uid) throw new CustomError('Missing data', 'Missing ID', 2);
-        await UserManager.update(field, value, uid);
+        if(field === 'password'){
+            await UserManager.updatePass(value, uid);
+        } else {
+            await UserManager.update(field, value, uid);
+        }
         const user = await UserManager.getById(uid);
         res.clearCookie('accesToken',{sameSite:'None', secure:true});
         const accesToken = utils.generateToken(user);
         res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none'})
-        return res.status(200).send({status:'succes', message:`Se actualizó el: ${field}`});
+        return res.status(200).send({status:'succes', message:`Usuario actualizado!`});
     } catch (error) {
         next(error);
     }
@@ -36,7 +40,7 @@ const updatePassword = async(req, res, next)=>{
         const {uid} = req.params;
         const {password} = req.body;
         await UserManager.updatePass(password, uid);
-        return res.status(200).send({status:'success', message:'Contraseña actualizada !'});
+        return res.status(200).send({status:'success', message:'Contraseña actualizada!'});
     } catch (error) {
         next(error);
     }
