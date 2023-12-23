@@ -16,5 +16,6 @@ export default{
     awsRegion: process.env.AWS_REGION,
     awsBucket: process.env.AWS_IMGS_BUCKET,
     urlFront: process.env.URL_FRONT,
-    adminEmail: process.env.ADMIN_EMAIL
+    adminEmail: process.env.ADMIN_EMAIL,
+    adminPass: process.env.ADMIN_PASS
 };
