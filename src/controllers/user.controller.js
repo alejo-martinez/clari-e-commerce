@@ -1,10 +1,15 @@
 import { UserManager } from "../dao/service/user.service.js";
 import utils from "../utils.js";
+import CustomError from "../errors/custom.error.js";
+import { missingUserField } from "../errors/info.error.js";
 
 const updateUser = async(req, res, next)=>{
     try {
         const {field, value} = req.body;
+        if(!value) throw new CustomError('Missing data', missingUserField(field), 2);
+        if(!field) throw new CustomError('Missing data', 'Missing field', 2);
         const {uid} = req.params;
+        if(!uid) throw new CustomError('Missing data', 'Missing ID', 2);
         await UserManager.update(field, value, uid);
         const user = await UserManager.getById(uid);
         res.clearCookie('accesToken',{sameSite:'None', secure:true});
