@@ -15,5 +15,6 @@ export default{
     awsSecretAccesKey: process.env.AWS_SECRET_ACCES_KEY,
     awsRegion: process.env.AWS_REGION,
     awsBucket: process.env.AWS_IMGS_BUCKET,
-    urlFront: process.env.URL_FRONT
+    urlFront: process.env.URL_FRONT,
+    adminEmail: process.env.ADMIN_EMAIL
 };
