@@ -17,5 +17,8 @@ export default{
     awsBucket: process.env.AWS_IMGS_BUCKET,
     urlFront: process.env.URL_FRONT,
     adminEmail: process.env.ADMIN_EMAIL,
-    adminPass: process.env.ADMIN_PASS
+    adminPass: process.env.ADMIN_PASS,
+    clientSecret: process.env.CLIENT_SECRET,
+    clientId: process.env.CLIENT_ID,
+    refreshToken: process.env.REFRESH_TOKEN
 };
