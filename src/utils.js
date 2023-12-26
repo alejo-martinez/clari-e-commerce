@@ -39,7 +39,12 @@ const isValidPassword = (user, password) => {
     return bcrypt.compareSync(password, user.password);
 }
 
-const transporte = nodemailer.createTransport({service:'gmail', port:587, auth:{user:config.adminEmail, pass:config.adminPass}});
+const transporte = nodemailer.createTransport({
+    service:'gmail',
+    auth:{
+        user:config.adminEmail,
+        pass:config.adminPass,
+    }});
 
 const formatUnitPrice = (price) => price.toFixed(0);
 
