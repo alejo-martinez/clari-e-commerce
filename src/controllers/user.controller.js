@@ -42,7 +42,7 @@ const resetPassword = async(req, res, next)=>{
         const {email} = req.body;
         const user = await UserManager.getByField('email', email);
         if(!user) throw new CustomError('No user', 'El usuario con el mail ingresado no existe', 4);
-        await utils.transporte.sendMail({from: config.adminEmail, to: email, html:`<h3>Hola ${user.name}</h3><p>Solicitaste un cambio de contraseña, siga el siguiente link: <a href="${config.urlFront}/resetpass/${user._id}">Restaurar contraseña.</a> Si no solicitó el cambio desestime este mensaje.`});
+        await utils.transporte.sendMail({from: config.adminEmail, to: email, subject: 'Cambio de clave', html:`<h3>Hola ${user.name}</h3><p>Solicitaste un cambio de contraseña, siga el siguiente link: <a href="${config.urlFront}/resetpass/${user._id}">Restaurar contraseña.</a> Si no solicitó el cambio desestime este mensaje.`});
         return res.status(200).send({status:'success', message:'Email enviado! Revise su bandeja de entrada.'});
     } catch (error) {
         next(error);

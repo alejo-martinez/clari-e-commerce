@@ -20,5 +20,6 @@ export default{
     adminPass: process.env.ADMIN_PASS,
     clientSecret: process.env.CLIENT_SECRET,
     clientId: process.env.CLIENT_ID,
-    refreshToken: process.env.REFRESH_TOKEN
+    refreshToken: process.env.REFRESH_TOKEN,
+    urlCors: process.env.URL_CORS
 };
