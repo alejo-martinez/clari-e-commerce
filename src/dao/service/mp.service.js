@@ -16,7 +16,7 @@ export class MercadoPagoManager {
                 'excluded_payment_types': [],
                 'installments': 1
             },
-            'notification_url': 'https://clari-e-commerce-production.up.railway.app/api/mp/createticket',
+            'notification_url': 'https://clari-e-commerce-production.up.railway.app/api/mercadopago/createticket',
             'statement_descriptor': 'CLARAECOMERCE',
         }
     }
