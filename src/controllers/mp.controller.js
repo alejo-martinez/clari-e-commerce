@@ -1,5 +1,4 @@
 import { Preference } from "mercadopago";
-
 import { MercadoPagoManager } from "../dao/service/mp.service.js";
 import {CartManager} from '../dao/service/cart.service.js';
 import { ItemDTO } from "../dto/preferenceItemDTO.js";
@@ -23,7 +22,7 @@ const createPreference = async(req, res, next)=>{
         })
         const date = utils.weekDate();
         const preference = new Preference(client);
-        const body = MercadoPagoManager.createPreference(arrayProducts, {'name': `${user.name}`, 'surname': `${user.last_name}`, 'email': `${user.email}`});
+        const body = MercadoPagoManager.createPreference(arrayProducts, {'name': `${user.name}`, 'surname': `${user.last_name}`, 'email': `${user.email}`}, req.user.cart);
       
         const response = await preference.create({body});
         
@@ -33,4 +32,12 @@ const createPreference = async(req, res, next)=>{
     }
 }
 
-export default {createPreference};
+const paymentStatus = async(req, res, next)=>{
+    try {
+        console.log(req.body);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export default {createPreference, paymentStatus};
