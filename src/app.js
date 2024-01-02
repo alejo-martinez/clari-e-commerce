@@ -44,7 +44,7 @@ app.use(cookieParser(config.secretCookieCode));
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cors({origin:'https://clari-ecommerce-front.vercel.app', credentials:true, methods:'GET, POST, PUT, DELETE'}));
+app.use(cors({origin:'http://localhost:3000', credentials:true, methods:'GET, POST, PUT, DELETE'}));
 
 app.use('/static', express.static(utils.__dirname + '/public'));
 app.use(express.static(path.join(utils.__dirname, 'views')));
