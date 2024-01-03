@@ -3,6 +3,7 @@ import { MercadoPagoManager } from "../dao/service/mp.service.js";
 import {CartManager} from '../dao/service/cart.service.js';
 import utils from "../utils.js";
 import { client } from "../config/mercadopago.config.js";
+import mercadopago from 'mercadopago';
 
 
 const createPreference = async(req, res, next)=>{
@@ -32,6 +33,16 @@ const createPreference = async(req, res, next)=>{
 
 const paymentStatus = async(req, res, next)=>{
     try {
+        
+        const topic = req.query.topic;
+        const id = req.query.id;
+
+        console.log(topic)
+        console.log(id)
+
+        const payment = mercadopago.payment.findById(id);
+        console.log(payment)
+
         console.log(req.body);
         return res.status(200).send('OK');
     } catch (error) {

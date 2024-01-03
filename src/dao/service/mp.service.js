@@ -7,7 +7,7 @@ export class MercadoPagoManager {
             'items': items,
             'payer': user,
             'back_urls': {
-                'success': `${config.urlFront}/${cid}`,
+                'success': `${config.urlFront}/cart/${cid}`,
                 'failure': config.urlFront,
             },
             'auto_return': 'approved',
