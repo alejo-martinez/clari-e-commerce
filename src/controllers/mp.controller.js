@@ -33,6 +33,7 @@ const createPreference = async(req, res, next)=>{
 const paymentStatus = async(req, res, next)=>{
     try {
         console.log(req.body);
+        return res.status(200).send('OK');
     } catch (error) {
         next(error);
     }
