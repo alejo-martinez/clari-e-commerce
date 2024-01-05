@@ -33,6 +33,7 @@ const logOut = async (req, res) => {
 const current = async (req, res, next) =>{
     try {
         const user = req.user;
+        // if(!user) throw new CustomError('No user', 'No existe usuario logueado', 4);
         return res.status(200).send({status:'succes', payload: user});
     } catch (error) {
         next(error)

@@ -21,6 +21,7 @@ const initPassport = ()=> {
         try {
             return done(null, jwt_payload.user)
         } catch (error) {
+            console.log('entro');
             done(error)
         }
     }))
