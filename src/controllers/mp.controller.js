@@ -39,9 +39,6 @@ const paymentStatus = async(req, res, next)=>{
 
         console.log(topic)
         console.log(id)
-
-    
-
         console.log(req.body);
         return res.status(200).send('OK');
     } catch (error) {
