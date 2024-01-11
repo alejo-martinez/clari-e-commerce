@@ -1,4 +1,4 @@
-import mercadopago, { Preference, MerchantOrder } from "mercadopago";
+import { Preference, Payment } from "mercadopago";
 import { MercadoPagoManager } from "../dao/service/mp.service.js";
 import {CartManager} from '../dao/service/cart.service.js';
 import utils from "../utils.js";
@@ -33,13 +33,11 @@ const createPreference = async(req, res, next)=>{
 
 const paymentStatus = async(req, res, next)=>{
     try {
-
-        const topic = req.query.topic;
-        const id = req.query.id;
-
-        console.log(topic)
-        console.log(id)
+        const body = req.body;
         console.log(req.body);
+        const payment = new Payment(client).get(body.data.id);
+        console.log(payment);
+
         return res.status(200).send('OK');
     } catch (error) {
         next(error);
@@ -49,13 +47,7 @@ const paymentStatus = async(req, res, next)=>{
 const paymentSucces = async(req, res, next)=>{
     try { 
         const {payment_id, collection_id, status, payment_type, collection_status} = req.query;
-        const merc = new MerchantOrder({
-            _id : payment_id,
-            collection_id: collection_id ,
-            status: status,
-            type : payment_type,
-            subtype : 'mercadoPago'
-        })
+        
         console.log(merc);
     } catch (error) {
         next(error);
