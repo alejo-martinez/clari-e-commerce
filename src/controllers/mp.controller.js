@@ -35,7 +35,7 @@ const paymentStatus = async(req, res, next)=>{
     try {
         const body = req.body;
         console.log(req.body);
-        const payment = new Payment(client).get(body.data.id);
+        const payment = await new Payment(client).get(body.data.id);
         console.log(payment);
 
         return res.status(200).send('OK');
