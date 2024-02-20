@@ -1,0 +1,214 @@
+{
+    "accounts_info": null,
+    "acquirer_reconciliation": [],
+    "additional_info": {
+        "authentication_code": null,
+        "available_balance": null,
+        "ip_address": "190.183.80.244",
+        "items": [
+            {
+                "category_id": null,
+                "description": "descripcion enviada desde postman deasfafw nuevof asasfasfasfasasf aas",
+                "id": "65663bfc128b25f7276d682f",
+                "picture_url": null,
+                "quantity": "1",
+                "title": "cambio a producto clari",
+                "unit_price": "1"
+            },
+            {
+                "category_id": null,
+                "description": "alsk akl awñkl awñ lkawñlkwj ak jñalwk",
+                "id": "6572104106a250d3895069e2",
+                "picture_url": null,
+                "quantity": "1",
+                "title": "producto 4",
+                "unit_price": "1"
+            }
+        ],
+        "nsu_processadora": null,
+        "payer": {
+            "first_name": "misterio",
+            "last_name": "pur"
+        }
+    },
+    "authorization_code": null,
+    "binary_mode": false,
+    "brand_id": null,
+    "build_version": "3.33.1",
+    "call_for_authorize_id": null,
+    "captured": true,
+    "card": {},
+    "charges_details": [
+        {
+            "accounts": {
+                "from": "collector",
+                "to": "mp"
+            },
+            "amounts": {
+                "original": 0.08,
+                "refunded": 0
+            },
+            "client_id": 0,
+            "date_created": "2024-01-12T11:10:27.000-04:00",
+            "id": "1316606340-001",
+            "last_updated": "2024-01-12T11:10:27.000-04:00",
+            "metadata": {},
+            "name": "mercadopago_fee",
+            "refund_charges": [],
+            "reserve_id": null,
+            "type": "fee"
+        }
+    ],
+    "collector_id": 1563279070,
+    "corporation_id": null,
+    "counter_currency": null,
+    "coupon_amount": 0,
+    "currency_id": "ARS",
+    "date_approved": "2024-01-12T11:10:28.025-04:00",
+    "date_created": "2024-01-12T11:10:27.985-04:00",
+    "date_last_updated": "2024-01-12T11:10:28.025-04:00",
+    "date_of_expiration": null,
+    "deduction_schema": null,
+    "description": "cambio a producto clari",
+    "differential_pricing_id": null,
+    "external_reference": null,
+    "fee_details": [
+        {
+            "amount": 0.08,
+            "fee_payer": "collector",
+            "type": "mercadopago_fee"
+        }
+    ],
+    "financing_group": null,
+    "id": 1316606340,
+    "installments": 1,
+    "integrator_id": null,
+    "issuer_id": "2005",
+    "live_mode": false,
+    "marketplace_owner": null,
+    "merchant_account_id": null,
+    "merchant_number": null,
+    "metadata": {},
+    "money_release_date": "2024-01-30T11:10:28.025-04:00",
+    "money_release_schema": null,
+    "money_release_status": "pending",
+    "notification_url": "https://aqua-configured-therapy-brake.trycloudflare.com/api/mercadopago/createticket",
+    "operation_type": "regular_payment",
+    "order": {
+        "id": "14880026524",
+        "type": "mercadopago"
+    },
+    "payer": {
+        "identification": {
+            "number": "32659430",
+            "type": "DNI"
+        },
+        "entity_type": null,
+        "phone": {
+            "number": null,
+            "extension": null,
+            "area_code": null
+        },
+        "last_name": null,
+        "id": "1561607709",
+        "type": null,
+        "first_name": null,
+        "email": "test_user_80507629@testuser.com"
+    },
+    "payment_method": {
+        "id": "account_money",
+        "issuer_id": "2005",
+        "type": "account_money"
+    },
+    "payment_method_id": "account_money",
+    "payment_type_id": "account_money",
+    "platform_id": null,
+    "point_of_interaction": {
+        "business_info": {
+            "branch": null,
+            "sub_unit": "checkout_pro",
+            "unit": "online_payments"
+        },
+        "transaction_data": {
+            "e2e_id": null
+        },
+        "type": "CHECKOUT"
+    },
+    "pos_id": null,
+    "processing_mode": "aggregator",
+    "refunds": [],
+    "shipping_amount": 0,
+    "sponsor_id": null,
+    "statement_descriptor": null,
+    "status": "approved",
+    "status_detail": "accredited",
+    "store_id": null,
+    "tags": null,
+    "taxes_amount": 0,
+    "transaction_amount": 2,
+    "transaction_amount_refunded": 0,
+    "transaction_details": {
+        "acquirer_reference": null,
+        "external_resource_url": null,
+        "financial_institution": null,
+        "installment_amount": 0,
+        "net_received_amount": 1.92,
+        "overpaid_amount": 0,
+        "payable_deferral_period": null,
+        "payment_method_reference_id": null,
+        "total_paid_amount": 2
+    },
+    "api_response": {
+        "status": 200,
+        "headers": {
+            "date": [
+                "Fri, 12 Jan 2024 15:10:28 GMT"
+            ],
+            "content-type": [
+                "application/json;charset=UTF-8"
+            ],
+            "transfer-encoding": [
+                "chunked"
+            ],
+            "connection": [
+                "keep-alive"
+            ],
+            "vary": [
+                "Accept-Encoding, Accept,Accept-Encoding"
+            ],
+            "cache-control": [
+                "max-age=0"
+            ],
+            "x-content-type-options": [
+                "nosniff"
+            ],
+            "x-request-id": [
+                "0bbb9085-c445-4a3b-b22c-ad869b4f5095"
+            ],
+            "x-xss-protection": [
+                "1; mode=block"
+            ],
+            "strict-transport-security": [
+                "max-age=16070400; includeSubDomains; preload"
+            ],
+            "access-control-allow-origin": [
+                "*"
+            ],
+            "access-control-allow-headers": [
+                "Content-Type"
+            ],
+            "access-control-allow-methods": [
+                "PUT, GET, POST, DELETE, OPTIONS"
+            ],
+            "access-control-max-age": [
+                "86400"
+            ],
+            "timing-allow-origin": [
+                "*"
+            ],
+            "content-encoding": [
+                "gzip"
+            ]
+        }
+    }
+}

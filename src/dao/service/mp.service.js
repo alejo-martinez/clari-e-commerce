@@ -7,10 +7,18 @@ export class MercadoPagoManager {
             'items': items,
             'payer': user,
             'back_urls': {
-                'success': `${config.urlFront}ticket/${cid}`,
+                'success': `${config.urlFront}/cart/${cid}`,
+                'pending': `${config.urlFront}/cart/${cid}`,
                 'failure': `${config.urlFront}/cart/${cid}`,
             },
             'auto_return': 'approved',
+            'payment_methods': {
+                'excluded_payment_methods': [],
+                'excluded_payment_types': [{id:'ticket'}],
+                'installments': 1
+            },
+            'notification_url': `${config.notificationUrl}/api/mercadopago/createticket`,
+            'statement_descriptor': 'Clara blanco y hogar'
         }
     }
 }

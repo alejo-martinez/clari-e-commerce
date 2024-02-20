@@ -48,7 +48,7 @@ export class CartManager {
 
     static async removeProduct(product, quantity, id){
         try {
-            const cart = await cartModel.findOne({_id: id});
+            const cart = await cartModel.findOne({_id: id}).lean();
             const producto = cart.products.find(prod => prod.product == product);
             if(producto.quantity == quantity) await cartModel.updateOne({_id: id}, {$pull:{products:{product: product}}});
             if(producto.quantity > quantity) await cartModel.updateOne({_id: id, 'products.product': product}, {$set:{'products.$.quantity': producto.quantity - quantity}});

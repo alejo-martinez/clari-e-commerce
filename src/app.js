@@ -46,7 +46,8 @@ app.use(cookieParser(config.secretCookieCode));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.use(cors({origin:['https://clari-ecommerce-front.vercel.app', 'https://api.mercadopago.com'], credentials:true, methods:'GET, POST, PUT, DELETE'}));
+// app.use(cors({origin:['https://clari-ecommerce-front.vercel.app', 'https://api.mercadopago.com'], credentials:true, methods:'GET, POST, PUT, DELETE'}));
+app.use(cors({origin:config.urlFront, credentials:true, methods:'GET, POST, PUT, DELETE'}));
 
 
 app.use('/static', express.static(utils.__dirname + '/public'));

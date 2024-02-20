@@ -21,5 +21,6 @@ export default{
     clientSecret: process.env.CLIENT_SECRET,
     clientId: process.env.CLIENT_ID,
     refreshToken: process.env.REFRESH_TOKEN,
-    urlCors: process.env.URL_CORS
+    urlCors: process.env.URL_CORS,
+    notificationUrl: process.env.NOTIFICATION_URL,
 };

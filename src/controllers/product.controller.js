@@ -7,7 +7,7 @@ import utils from "../utils.js";
 
 const getAll = async(req, res, next)=>{
     try {
-        const productos = await ProductManager.getAll();
+        const productos = await ProductManager.getAll()
         return res.status(200).send({status:'succes', payload:productos});
     } catch (error) {
         next(error);
@@ -16,8 +16,10 @@ const getAll = async(req, res, next)=>{
 
 const getAllLimit = async(req, res, next)=>{
     try {
-        const productos = await ProductManager.getAllLimit(req);
-        return res.status(200).send(productos);
+        const { page = 1 } = req.query
+        const response = await ProductManager.getAllLimit(page);
+        // console.log(response)
+        return res.status(200).send({status:'succes', payload: response});
     } catch (error) {
         next(error);
     }
