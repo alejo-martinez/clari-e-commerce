@@ -1,5 +1,6 @@
 import utils from "../utils.js";
 import CustomError from "../errors/custom.error.js";
+import config from "../config/config.js";
 
 const createUser = async(req, res, next)=>{
     try {
@@ -13,7 +14,7 @@ const userLogued = async(req, res, next)=>{
     try {
         const user = req.user;
         const accesToken = utils.generateToken(user);
-        res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none'}).send({status:'succes', message:`Bienvenidx ${user.name} !`, payload:user});
+        res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none', domain: config.notificationUrl}).send({status:'succes', message:`Bienvenidx ${user.name} !`, payload:user});
     } catch (error) {
         next(error);
     }
