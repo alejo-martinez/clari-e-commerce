@@ -14,7 +14,7 @@ const userLogued = async(req, res, next)=>{
     try {
         const user = req.user;
         const accesToken = utils.generateToken(user);
-        res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none', domain: 'clari-ecommerce-front.vercel.app/'}).send({status:'succes', message:`Bienvenidx ${user.name} !`, payload:user});
+        res.cookie('accesToken', accesToken, {maxAge: 60 * 60 * 2000, signed:true, httpOnly: true, secure: true, sameSite: 'none', domain: 'clari-ecommerce-front.vercel.app'}).send({status:'succes', message:`Bienvenidx ${user.name} !`, payload:user});
     } catch (error) {
         next(error);
     }
