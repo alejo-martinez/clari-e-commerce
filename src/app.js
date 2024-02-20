@@ -34,7 +34,8 @@ app.use(session({
     }),
     secret: config.secretKey,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie:{secure: true}
 }));
 
 initPassport();
