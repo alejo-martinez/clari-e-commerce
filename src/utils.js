@@ -62,4 +62,14 @@ const upload = multer({
     storage: multer.memoryStorage()
 })
 
-export default {__dirname, cookieExtractor, generateToken, createHash, isValidPassword, transporte, formatUnitPrice, actualDate, weekDate, upload, s3};
+const calculateTotalStock = (variants) =>{
+    let total=0;
+    variants.forEach(variant =>{
+        variant.sizes.forEach(size=>{
+            total += Number(size.stock);
+        })
+    })
+    return total;
+}
+
+export default {__dirname, cookieExtractor, generateToken, createHash, isValidPassword, transporte, formatUnitPrice, actualDate, weekDate, upload, s3, calculateTotalStock};

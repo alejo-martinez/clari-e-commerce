@@ -1,12 +1,13 @@
+import utils from "../utils.js";
+
 export class ProductDTO {
-    constructor(title, description, price, stock, imageUrl, category, subCategory, key){
+    constructor(title, description, variants, imagesUrl, category){
         this.title = title;
         this.description = description;
-        this.price = price;
-        this.stock = stock;
-        this.imageUrl = imageUrl;
+        this.imagesUrl = imagesUrl;
         this.category = category;
-        this.subCategory = subCategory;
-        this.key = key;
+        this.variants = variants;
+        this.totalStock = utils.calculateTotalStock(variants);
+        // this.key = key;
     }
 }

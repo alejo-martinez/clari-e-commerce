@@ -11,7 +11,7 @@ router.get('/prods', productController.getAllLimit);
 router.get('/:pid', productController.getById);
 router.get('/category/:category', productController.getByCategory);
 router.get('/subcategory/:subcategory', productController.getBySubCategory);
-router.post('/', authToken, adminUser, utils.upload.single('file'), productController.create);
+router.post('/', authToken, adminUser, utils.upload.array('files'), productController.create);
 router.put('/:pid', authToken, adminUser, productController.update);
 router.put('/image/:pid', authToken, adminUser, utils.upload.single('file'), productController.updateImage);
 router.delete('/:pid', authToken, adminUser, productController.remove);

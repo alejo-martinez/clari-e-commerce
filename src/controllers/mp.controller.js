@@ -46,6 +46,8 @@ const paymentStatus = async (req, res, next) => {
             let quantity = 0;
             const pago = await payment.get({ id: body.data.id });
             const preferencia = await preference.get({ preferenceId: pago.external_reference })
+            console.log('paso aca')
+            console.log(pago)
 
             if (pago.status === 'approved') {
                 const arrayItems = [];
@@ -65,7 +67,6 @@ const paymentStatus = async (req, res, next) => {
                     await CartManager.removeProduct(prod.product, prod.quantity, user.cart);
                     await ProductManager.update('stock', newStock, prod.product);
                 }
-
                 const pdfDoc = await PdfManager.createPdfOrder(newTicket)
                 await NodemailerManager.sendEmailTicket(user, newTicket, pdfDoc);
             }

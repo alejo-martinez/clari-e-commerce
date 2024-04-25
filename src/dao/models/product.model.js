@@ -3,18 +3,18 @@ import mongoosePaginate from 'mongoose-paginate-v2'
 
 const collection = 'products';
 
-const CategoryEnum = ["velas", "flores", "articulos", "mantas"];
-const SubCategoryEnum = ["decorativas", "eventos", "aromaticas", "molde", "secas", "textiles", "sillones", "mesa", "individual", "hornillos", "fuentes", "figuras"];
-
 const schema = new mongoose.Schema({
     title:{type:String},
     description:{type:String},
-    price:{type:Number, required:true},
-    imageUrl:{type:String},
-    stock:{type:Number},
-    category:{type: String, required: true, enum:CategoryEnum},
-    subCategory:{type:String, required: true, enum:SubCategoryEnum},
-    key: String
+    imagesUrl:{type:[String]},
+    variants:{type:[
+        {color: {type: String, default: null},
+        sizes:[
+            {size: String, stock: Number, price: Number}
+        ]}
+    ]},
+    category:{type: String},
+    totalStock:{type: Number}
 })
 
 schema.plugin(mongoosePaginate);
