@@ -6,13 +6,12 @@ const addProduct = async(req, res, next)=>{
     try {
         const {cid} = req.params;
         if(!cid) throw new CustomError('Invalid data', 'Invalid ID', 1);
-        const {idProd, quantity} = req.body;
-        if(!idProd  && quantity) throw new CustomError('Invalid data', 'Invalid product ID', 1);
-        if(!quantity && idProd) throw new CustomError('No data', 'Especifica una cantidad', 2);
-        if(!quantity && !idProd) throw new CustomError('No data', 'Missing data', 6);
-        const prodBdd = await ProductManager.getById(idProd);
-        const resp = await CartManager.addProduct(idProd, quantity, cid, prodBdd.stock);
-        if(resp && resp.status === 'error') throw new CustomError('Conflict error', resp.error.message, 6);
+        const {idProd, quantity, size, color} = req.body;
+        if(!idProd)  throw new CustomError("Missing parameter",'Parameter not found : idProd', 4);
+        if(!quantity  || !size || !color ) throw new CustomError("Missing parameters","Debes completar todos los datos",4);
+
+        const resp = await CartManager.addProduct(idProd, quantity, cid, color, size);
+        if(!resp) throw new CustomError('Conflict error', 'No hay stock suficiente', 6);
         return res.status(200).send({status:'succes', message:'Producto agregado !'});
     } catch (error) {
         next(error);

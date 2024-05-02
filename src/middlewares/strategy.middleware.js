@@ -10,8 +10,8 @@ export const strategyPassport = (strategy)=>{
             if(!user){
                 if(info?.message === 'No auth token'){
                     req.user = undefined;
-                    const errorToken = new CustomError('No user', 'No hay user logueado', 4);
-                    return next(errorToken);
+                    // const errorToken = new CustomError('No user', 'No hay user logueado', 4);
+                    return next();
                 }else{
                     req.user = undefined;
                     return next(info?.message);

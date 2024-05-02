@@ -4,7 +4,7 @@ const collection = 'carts';
 
 const schema = new mongoose.Schema({
     products:{type: [
-        {product: {type: mongoose.Schema.Types.ObjectId, ref:'products'}, quantity: Number}
+        {product: {type: mongoose.Schema.Types.ObjectId, ref:'products'}, quantity: Number, size: String, color: String, price: Number}
     ], default:[]}
 });
 

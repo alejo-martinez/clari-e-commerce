@@ -1,4 +1,5 @@
 import { cartModel } from "../models/cart.model.js";
+import { productModel } from "../models/product.model.js";
 
 export class CartManager {
     static async getById (id){
@@ -27,34 +28,35 @@ export class CartManager {
         }
     }
 
-    static async addProduct(product, quantity, id, stock){
-        try {
-            if(!product || !quantity || !id) throw new Error('Faltan campos');
-            const cart = await cartModel.findOne({_id:id});
-            if(!cart) throw new Error('No existe el carrito');
-            const producto = cart.products.find(prod => prod.product == product);
-            if(!producto){
-                if(stock < Number(quantity)) throw new Error('No contamos con suficiente stock, porfavor ingresa una cantidad menor.');
-                await cartModel.updateOne({_id: id}, {$push:{'products':{product:product, quantity:quantity}}});
-            }
-            else{
-                if(stock < Number(quantity) + producto.quantity) throw new Error('No contamos con suficiente stock, porfavor ingresa una cantidad menor.');
-                await cartModel.updateOne({_id: id, 'products.product': product}, {$set:{'products.$.quantity':producto.quantity + quantity}});
-            }
-        } catch (error) {
-            return {status:'error', error: error};
+    static async addProduct(idProd, quantity, cid, color, size){
+        const prod = await productModel.findOne({_id: idProd});
+        const cart = await cartModel.findOne({_id: cid});
+        const prodInCart = cart.products.findIndex((item)=> item.product.equals(idProd));
+        const variant = prod.variants.find(item => item.color === color);
+        const sizeType = variant.sizes.find(item => item.size === size);
+        if(prodInCart !== -1){
+            // const validStock = Number(sizeType.stock) - Number(quantity);
+            const validStock = Number(quantity) + Number(cart.products[prodInCart].quantity);
+            if(validStock > sizeType.stock) return false;
+            cart.products[prodInCart].quantity += quantity;
         }
+        if(prodInCart === -1){
+            cart.products.push({product: idProd, quantity:  quantity , color : color, size : size, price: sizeType.price});
+        }
+
+
+        await cartModel.updateOne({_id: cid}, {products: cart.products});
+        return true;
     }
 
     static async removeProduct(product, quantity, id){
-        try {
             const cart = await cartModel.findOne({_id: id}).lean();
-            const producto = cart.products.find(prod => prod.product == product);
-            if(producto.quantity == quantity) await cartModel.updateOne({_id: id}, {$pull:{products:{product: product}}});
-            if(producto.quantity > quantity) await cartModel.updateOne({_id: id, 'products.product': product}, {$set:{'products.$.quantity': producto.quantity - quantity}});
-        } catch (error) {
-            return error;
-        }
+            const productoIndex = cart.products.findIndex(prod => prod.product == product);
+            if(productoIndex !== -1){
+                cart.products[productoIndex].quantity -= quantity;
+                if(cart.products[productoIndex].quantity === 0) await cartModel.updateOne({_id: id}, {$pull:{products: cart.products[productoIndex]}});
+                else await cartModel.updateOne({_id: id}, {products: cart.products});
+            }
     }
 
     static async emptyCart(cid){
