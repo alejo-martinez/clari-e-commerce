@@ -21,10 +21,11 @@ const createPreference = async (req, res, next) => {
         const arrayProducts = [];
 
         const cart = await CartManager.getByIdPopulate(user.cart);
-
         cart.products.forEach(product => {
-
-            let prod = { 'id': `${product.product._id}`, 'title': `${product.product.title}`, 'description': `${product.product.description}`, 'currency_id': 'ARS', 'unit_price': Number(product.product.price), 'quantity': Number(product.quantity) }
+            // const colorFinded = product.product.variants.find(it => it.color === product.variant.color);
+            // console.log(colorFinded)
+            // const sizeFinded = colorFinded.sizes.find(item => item.size === product.size);
+            let prod = { 'id': `${product.product._id}`, 'title': `${product.product.title}`, 'description': `${product.product.description}`, 'currency_id': 'ARS', 'unit_price': Number(product.unitPrice), 'quantity': Number(product.quantity) }
             arrayProducts.push(prod);
         });
         const date = utils.weekDate();
@@ -46,8 +47,6 @@ const paymentStatus = async (req, res, next) => {
             let quantity = 0;
             const pago = await payment.get({ id: body.data.id });
             const preferencia = await preference.get({ preferenceId: pago.external_reference })
-            console.log('paso aca')
-            console.log(pago)
 
             if (pago.status === 'approved') {
                 const arrayItems = [];

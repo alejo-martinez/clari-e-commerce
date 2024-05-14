@@ -9,9 +9,8 @@ const addProduct = async(req, res, next)=>{
         const {idProd, quantity, size, color} = req.body;
         if(!idProd)  throw new CustomError("Missing parameter",'Parameter not found : idProd', 4);
         if(!quantity  || !size || !color ) throw new CustomError("Missing parameters","Debes completar todos los datos",4);
-
         const resp = await CartManager.addProduct(idProd, quantity, cid, color, size);
-        if(!resp) throw new CustomError('Conflict error', 'No hay stock suficiente', 6);
+        if(!resp) throw new CustomError('Sin stock', 'No hay stock suficiente', 6);
         return res.status(200).send({status:'succes', message:'Producto agregado !'});
     } catch (error) {
         next(error);
@@ -22,9 +21,9 @@ const removeProduct = async(req, res, next)=>{
     try {
         const {cid, pid} = req.params;
         if(!pid || !cid) throw new CustomError('Invalid data', 'Invalid ID', 1);
-        const {quantity} = req.body;
+        const {quantity, color, size} = req.body;
         if(!quantity) throw new CustomError('Invalid data', 'Especifica una cantidad', 2);
-        await CartManager.removeProduct(pid, quantity, cid);
+        await CartManager.removeProduct(pid, quantity, cid, color, size);
         return res.status(200).send({status:'succes', message:'Producto removido !'});
     } catch (error) {
         next(error);

@@ -23,4 +23,7 @@ export default{
     refreshToken: process.env.REFRESH_TOKEN,
     urlCors: process.env.URL_CORS,
     notificationUrl: process.env.NOTIFICATION_URL,
+    clientSecretGetnet: process.env.CLIENT_SECRET_GETNET,
+    clientIdGetnet: process.env.CLIENT_ID_GETNET,
+    baseUrl: process.env.BASE_URL_GETNET
 };

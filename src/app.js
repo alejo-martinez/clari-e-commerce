@@ -20,6 +20,7 @@ import productRouter from './routes/product.router.js';
 import cartRouter from './routes/cart.router.js';
 import mpRouter from './routes/mp.router.js';
 import ticketRouter from './routes/ticket.router.js';
+import getnetRouter from './routes/getnet.router.js';
 
 const port = parseFloat(config.port) || 3012;
 const app = express();
@@ -60,6 +61,7 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/mercadopago', mpRouter);
 app.use('/api/ticket', ticketRouter);
+app.use('/api/getnet', getnetRouter);
 
 mongoose.connect(config.dbUrl);
 
