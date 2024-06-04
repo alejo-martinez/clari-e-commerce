@@ -40,15 +40,15 @@ const getTicketByPreference = async(req, res, next)=>{
 
 const createTicket = async(req, res, next)=>{
     try {
-        const user = req.user;
-        const {products, quantity, amount, paymentMethod, status} = req.body;
+        const {products, quantity, amount, payment_method, status, userCookie} = req.body;
         const date = new Date();
-        const ticket = new TicketDTO(products, quantity, amount, user._id, paymentMethod, null, status, date);
+        const ticket = new TicketDTO(products, quantity, amount, userCookie, payment_method, null, status, date);
 
         const newTicket = await TicketManager.create(ticket);
-        await utils.transporte.sendMail({from: config.adminEmail, to: user.email, subject: 'Orden de compra', text: `Hola ${user.name} ! Se emitió una orden de compra para pagar con efectivo de forma presencial. Su id de compra es: ${newTicket._id}. Recordá acercarte con este id para que podamos verificar tu orden, muchas gracias!`});
-        return res.status(200).send({status:'succes', message: 'Orden de compra creada! Enviamos un email a su correo con la orden. Muchas gracias !'});
+        await utils.transporte.sendMail({from: config.adminEmail, to: userCookie.email, subject: 'Orden de compra', text: `Hola ${userCookie.name} ! Se emitió una orden de compra para realizar en nuestro local por un total de $${amount}. Su id de compra es: ${newTicket._id}. Recordá acercarte con este id para que podamos verificar tu orden, muchas gracias!`});
+        return res.status(200).send({status:'success', message: 'Orden de compra creada! Enviamos un email a su correo con la orden. Muchas gracias !'});
     } catch (error) {
+        console.log(error)
         next(error);
     }
 }
@@ -57,12 +57,28 @@ const approvedTicket = async(req, res, next)=>{
     try {
         const {tid} = req.params;
         const ticket = await TicketManager.approveTicket(tid);
-        for (const prod of ticket.products) {
-            const product = await ProductManager.getById(prod.product);
-            const newStock = product.stock - Number(prod.quantity);
-            await ProductManager.update('stock', newStock, prod.product);
-        }
+        // for (const prod of ticket.products) {
+        //     const product = await ProductManager.getById(prod.product);
+        //     const totalStock = product.totalStock;
+        //     const color = product.variants.find(c => c.color === prod.variant.color);
+        //     const size = color.sizes.find(s => s.size === prod.variant.size);
+        //     const newTotalStock = Number(totalStock) - Number(prod.quantity);
+        //     const newStock = Number(size.stock) - Number(prod.quantity);
+        //     await ProductManager.update('totalStock', newTotalStock, prod.product);
+        //     await ProductManager.update('stock', newStock, prod.product, color._id, size._id);
+        // }
         res.status(200).send({status:'succes', message:'Orden actualizada !'});
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
+}
+
+const updatePaymentTicket = async(req, res, next)=>{
+    try {
+        const {tid} = req.params;
+        const {payment} = req.body;
+
     } catch (error) {
         next(error);
     }

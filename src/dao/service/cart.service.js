@@ -12,11 +12,7 @@ export class CartManager {
     }
 
     static async getByIdPopulate(id) {
-        try {
             return await cartModel.findOne({ _id: id }).populate('products.product');
-        } catch (error) {
-            return error;
-        }
     }
 
     static async create() {
@@ -79,4 +75,8 @@ export class CartManager {
             return error;
         }
     }
+
+    static async updateCart(prods, cid){
+        await cartModel.updateOne({_id: cid}, {$set: {products: prods}});
+    } 
 };

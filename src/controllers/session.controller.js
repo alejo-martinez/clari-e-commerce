@@ -1,6 +1,7 @@
 import utils from "../utils.js";
 import CustomError from "../errors/custom.error.js";
 import config from "../config/config.js";
+import { UserManager } from "../dao/service/user.service.js";
 
 const createUser = async(req, res, next)=>{
     try {
@@ -34,6 +35,7 @@ const logOut = async (req, res) => {
 const current = async (req, res, next) =>{
     try {
         const user = req.user;
+        if(!user) throw new CustomError('No data', 'No hay usuario logueado', 4)
         return res.status(200).send({status:'succes', payload: user});
     } catch (error) {
         next(error)

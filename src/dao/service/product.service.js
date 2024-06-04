@@ -2,7 +2,7 @@ import { productModel } from "../models/product.model.js";
 
 export class ProductManager {
 
-    static async getAll(){
+    static async getAll() {
         try {
             return await productModel.find().lean();
         } catch (error) {
@@ -10,21 +10,13 @@ export class ProductManager {
         }
     }
 
-    static async testDelete(){
-        await productModel.deleteMany({})
-    }
-
     static async getAllLimit(page) {
         try {
             const limit = 16; // Number of products per page
-            // const { limit = 18 } = req.query
-            // const { page = 1 } = req.query
-            // const sort = req.query.sort
             const { docs, hasPrevPage, hasNextPage, prevPage, nextPage, totalPages } = await productModel.paginate({}, { limit: limit, page, lean: true })
 
-            // const productos = docs
-            const response = {docs: docs, hasPrevPage: hasPrevPage, hasNextPage: hasNextPage, prevPage: prevPage, nextPage: nextPage, totalPages: totalPages, page: page};
-            return response;     
+            const response = { docs: docs, hasPrevPage: hasPrevPage, hasNextPage: hasNextPage, prevPage: prevPage, nextPage: nextPage, totalPages: totalPages, page: page };
+            return response;
         } catch (error) {
             return error;
         }
@@ -38,9 +30,9 @@ export class ProductManager {
         }
     }
 
-    static async getBySubCategory(subCategory){
+    static async getBySubCategory(subCategory) {
         try {
-            return await productModel.find({subCategory: subCategory}).lean();
+            return await productModel.find({ subCategory: subCategory }).lean();
         } catch (error) {
             return error;
         }
@@ -62,9 +54,22 @@ export class ProductManager {
         }
     }
 
-    static async update(field, value, id) {
+    static async update(field, value, id, subId, sizeId) {
         try {
-            await productModel.updateOne({ _id: id }, { $set: { [field]: value } });
+            if (subId) {
+                const producto = await productModel.findOne({ _id: id });
+                if (!sizeId) {
+                    const variant = producto.variants.id(subId)
+                    variant.color = value;
+                }
+                if (sizeId) {
+                    const variant = producto.variants.id(subId)
+                    const size = variant.sizes.id(sizeId);
+                    size[field] = value;
+                }
+                await producto.save();
+            }
+            else await productModel.updateOne({ _id: id }, { $set: { [field]: value } });
         } catch (error) {
             return error;
         }

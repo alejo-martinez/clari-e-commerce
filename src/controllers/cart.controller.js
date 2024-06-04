@@ -30,6 +30,31 @@ const removeProduct = async(req, res, next)=>{
     }
 }
 
+const updateCart = async(req, res, next)=>{
+    try {
+        const {cid} = req.params;
+        const {prods} = req.body;
+        const carrito = await CartManager.getByIdPopulate(cid);
+        // console.log(carrito.products[0].product)
+        console.log(prods)
+        prods.forEach(prod=>{
+            // console.log(prod)
+            const colorFinded = prod.variant.color;
+            const sizeFinded = prod.variant.size;
+            const variant = prod.product.variants.find(p => p.color === colorFinded);
+            const size = variant.sizes.find(s => s.size === sizeFinded);
+            const prodFinded = carrito.products.findIndex(pr => pr.product === prod)
+
+            // const size = prods.find(p => p._id === prod.product && )
+        })
+        // carrito.products.conca
+        // await CartManager.updateCart(prods, cid);
+        return res.status(200).send({status: 'success', message: 'Updated!'});
+    } catch (error) {
+        next(error);
+    }
+}
+
 const emptyCart = async(req, res, next)=>{
     try {
         const {cid} = req.params;
@@ -52,11 +77,14 @@ const endPurchase = async(req, res, next)=>{
 const getByIdPopulate = async(req, res)=>{
     try {
         const {cid} = req.params;
+
         const cart = await CartManager.getByIdPopulate(cid);
+
+        if(!cart) throw new CustomError('No data', 'No se encontró ningun carrito', 4);
         return res.status(200).send({status:'succes', payload:cart});
     } catch (error) {
         return error;
     }
 }
 
-export default {addProduct, removeProduct, emptyCart, endPurchase, getByIdPopulate};
+export default {addProduct, removeProduct, emptyCart, endPurchase, getByIdPopulate, updateCart};

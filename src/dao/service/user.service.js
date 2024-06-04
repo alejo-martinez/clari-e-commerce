@@ -20,7 +20,7 @@ export class UserManager{
 
     static async getByField(field, value){
         try {
-            return await userModel.findOne({[field]: value}).lean();
+            return await userModel.findOne({[field]: value}).populate('cart').lean();
         } catch (error) {
             return error;
         }

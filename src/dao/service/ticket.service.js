@@ -1,4 +1,5 @@
 import { cartModel } from "../models/cart.model.js";
+import { productModel } from "../models/product.model.js";
 import { ticketModel } from "../models/ticket.model.js";
 import { userModel } from "../models/user.model.js";
 
@@ -25,7 +26,8 @@ export class TicketManager {
     static async approveTicket(id){
         const ticket = await ticketModel.findOneAndUpdate({_id: id}, {$set:{'status': 'Pagado'}});
         const user = await userModel.findOne({_id: ticket.owner}).lean();
-        await cartModel.updateOne({_id: user.cart}, {$set:{products:[]}});
+        if(user) await cartModel.updateOne({_id: user.cart._id}, {$set:{products:[]}});
+        // await cartModel.updateOne({_id: user.cart}, {$set:{products:[]}});
         return ticket;
     }
 

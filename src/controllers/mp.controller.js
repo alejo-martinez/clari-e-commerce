@@ -18,23 +18,35 @@ const createPreference = async (req, res, next) => {
 
     try {
         const user = req.user;
+        const {userCookie} = req.body;
         const arrayProducts = [];
-
-        const cart = await CartManager.getByIdPopulate(user.cart);
-        cart.products.forEach(product => {
-            // const colorFinded = product.product.variants.find(it => it.color === product.variant.color);
-            // console.log(colorFinded)
-            // const sizeFinded = colorFinded.sizes.find(item => item.size === product.size);
-            let prod = { 'id': `${product.product._id}`, 'title': `${product.product.title}`, 'description': `${product.product.description}`, 'currency_id': 'ARS', 'unit_price': Number(product.unitPrice), 'quantity': Number(product.quantity) }
-            arrayProducts.push(prod);
-        });
-        const date = utils.weekDate();
-
-        const body = MercadoPagoManager.createPreference(arrayProducts, { 'name': `${user.name}`, 'surname': `${user.last_name}`, 'email': `${user.email}` }, req.user.cart);
-
-        const response = await preference.create({ body });
+        if(!userCookie){
+            // console.log(user)
+            const cart = await CartManager.getByIdPopulate(user.cart._id);
+            cart.products.forEach(product => {
+                let prod = { 'id': `${product.product._id}`, 'title': `${product.product.title}`, 'description': `${product.product.description}`, 'currency_id': 'ARS', 'unit_price': Number(product.unitPrice), 'quantity': Number(product.quantity) }
+                arrayProducts.push(prod);
+            });
+            const date = utils.weekDate();
+            
+            const body = MercadoPagoManager.createPreference(arrayProducts, { 'name': `${user.name}`, 'surname': `${user.last_name}`, 'email': `${user.email}` }, user.cart._id);
+            
+            
+            const response = await preference.create({ body });
+            console.log(response)
+            await preference.update({ id: response.id, updatePreferenceRequest: { external_reference: response.id } })
+            return res.status(200).send({ status: 'succes', payload: response.id });
+        } else{
+            userCookie.cart.products.forEach(product =>{
+                let prod = { 'id': `${product.product._id}`, 'title': `${product.product.title}`, 'description': `${product.product.description}`, 'currency_id': 'ARS', 'unit_price': Number(product.unitPrice), 'quantity': Number(product.quantity) }
+                arrayProducts.push(prod);
+            })
+            
+            const body = MercadoPagoManager.createPreference(arrayProducts, { 'name': `${userCookie.name}`, 'surname': `${userCookie.surname}`, 'email': `${userCookie.email}` }, userCookie.cart._id);
+            const response = await preference.create({ body });
         await preference.update({ id: response.id, updatePreferenceRequest: { external_reference: response.id } })
         return res.status(200).send({ status: 'succes', payload: response.id });
+    }
     } catch (error) {
         next(error);
     }
@@ -43,11 +55,11 @@ const createPreference = async (req, res, next) => {
 const paymentStatus = async (req, res, next) => {
     try {
         const body = req.body;
+        console.log(body)
         if (body.data) {
             let quantity = 0;
             const pago = await payment.get({ id: body.data.id });
             const preferencia = await preference.get({ preferenceId: pago.external_reference })
-
             if (pago.status === 'approved') {
                 const arrayItems = [];
                 const user = await UserManager.getByField('email', preferencia.payer.email);

@@ -4,6 +4,7 @@ export class MercadoPagoManager {
 
     static createPreference(items, user, cid) {
         return {
+            'body': false,
             'items': items,
             'payer': user,
             'back_urls': {
@@ -17,8 +18,7 @@ export class MercadoPagoManager {
                 'excluded_payment_types': [{id:'ticket'}],
                 'installments': 1
             },
-            // 'notification_url': `${config.notificationUrl}/api/mercadopago/createticket`,
-            'notification_url': `https://left-mile-noble-gives.trycloudflare.com/api/mercadopago/createticket`,
+            'notification_url': `https://editors-budget-coffee-interested.trycloudflare.com/api/mercadopago/createticket`,
             'statement_descriptor': 'Clara blanco y hogar'
         }
     }

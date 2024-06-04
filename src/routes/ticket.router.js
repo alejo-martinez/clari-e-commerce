@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', authToken, adminUser, ticketController.getTickets);
 router.get('/:tid', authToken, ticketController.getTicketById);
 router.get('/preference/:pid', authToken, ticketController.getTicketByPreference);
-router.post('/', authToken, ticketController.createTicket);
+router.post('/', ticketController.createTicket);
 router.put('/approved/:tid', authToken, adminUser, ticketController.approvedTicket);
 router.delete('/delete/:tid', ticketController.deleteTicket);
 

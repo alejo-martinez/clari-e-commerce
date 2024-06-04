@@ -61,7 +61,6 @@ const create = async (req, res, next) => {
     try {
         let imageUrl;
         const { title, description, category, variants } = req.body;
-
         if (!title || !description || !category || !variants) {
             // const prodIncompleto = {title: title, description: description, category: category, variants: variants, imageUrl: !req.file ? undefined : true};
             throw new CustomError('Faltan datos', 'Faltan campos', 2);
@@ -83,7 +82,6 @@ const create = async (req, res, next) => {
         await ProductManager.create(producto);
         return res.status(200).send({ status: 'succes', message: 'Producto creado!' });
     } catch (error) {
-        console.log(error)
         next(error);
     }
 }
@@ -92,9 +90,11 @@ const update = async (req, res, next) => {
     try {
         const { pid } = req.params;
         if (!pid) throw new CustomError('Invalid data', 'Id inválido', 1);
-        const { field, value } = req.body;
+        const { field, value, subId, sizeId } = req.body;
         if (!field || !value) throw new CustomError('Missing data', `${!field && !value ? 'Proporciona un campo a actualizar con su valor' : !field && value ? 'Elige un campo a actualizar' : !value && field ? 'Ingresa un valor para el campo' : ''}`, 2);
-        await ProductManager.update(field, value, pid);
+        if(subId && !sizeId) await ProductManager.update(field, value, pid, subId);
+        if(subId && sizeId) await ProductManager.update(field, value, pid, subId, sizeId);
+        if(!subId) await ProductManager.update(field, value, pid);
         return res.status(200).send({ status: 'succes', message: 'Producto actualizado!' });
     } catch (error) {
         next(error);
