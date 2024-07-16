@@ -68,6 +68,7 @@ export class ProductManager {
                     size[field] = value;
                 }
                 await producto.save();
+                return producto;
             }
             else await productModel.updateOne({ _id: id }, { $set: { [field]: value } });
         } catch (error) {

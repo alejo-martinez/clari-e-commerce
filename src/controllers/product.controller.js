@@ -91,11 +91,12 @@ const update = async (req, res, next) => {
         const { pid } = req.params;
         if (!pid) throw new CustomError('Invalid data', 'Id inválido', 1);
         const { field, value, subId, sizeId } = req.body;
+        let prodUpdated;
         if (!field || !value) throw new CustomError('Missing data', `${!field && !value ? 'Proporciona un campo a actualizar con su valor' : !field && value ? 'Elige un campo a actualizar' : !value && field ? 'Ingresa un valor para el campo' : ''}`, 2);
-        if(subId && !sizeId) await ProductManager.update(field, value, pid, subId);
-        if(subId && sizeId) await ProductManager.update(field, value, pid, subId, sizeId);
+        if(subId && !sizeId) prodUpdated = await ProductManager.update(field, value, pid, subId);
+        if(subId && sizeId) prodUpdated = await ProductManager.update(field, value, pid, subId, sizeId);
         if(!subId) await ProductManager.update(field, value, pid);
-        return res.status(200).send({ status: 'succes', message: 'Producto actualizado!' });
+        return res.status(200).send({ status: 'succes', message: 'Producto actualizado!', payload:prodUpdated });
     } catch (error) {
         next(error);
     }
@@ -131,10 +132,10 @@ const remove = async (req, res, next) => {
         const { pid } = req.params;
         if (!pid) throw new CustomError('Invalid data', 'Invalid ID', 1);
         const prod = await ProductManager.getById(pid);
-        const params = { Bucket: config.awsBucket, Key: prod.key };
-        utils.s3.deleteObject(params, (err, data) => {
-            if (err) throw new CustomError('Error en la bdd', `Error al borrar el archivo: ${err}`, 5);
-        })
+        // const params = { Bucket: config.awsBucket, Key: prod.key };
+        // utils.s3.deleteObject(params, (err, data) => {
+        //     if (err) throw new CustomError('Error en la bdd', `Error al borrar el archivo: ${err}`, 5);
+        // })
         await ProductManager.delete(pid);
         return res.status(200).send({ status: 'succes', message: 'Producto borrado!' });
     } catch (error) {
